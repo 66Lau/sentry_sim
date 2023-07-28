@@ -1,0 +1,478 @@
+<?xml version="1.0" ?>
+<robot name="sc_mecanum" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!--<xacro:include filename="$(find sentry_gazebo)/urdf/sc.plugins.xacro" />-->
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+    <material name="red">
+        <color rgba="0.8 0.0 0.0 1.0"/>
+    </material>
+
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </xacro:macro>
+
+
+    <xacro:macro name="sc_mecanum">
+        <link name="base_footprint"/>
+        <link name="base_link">
+            <inertial>
+                <mass value="10.69655"/>
+                <origin rpy="0 0 0 " xyz="0 0 0"/>
+                <inertia ixx="1.387114121" ixy="0" ixz="0" iyy="1.566123162" iyz="0" izz="0.343148801"/>
+            </inertial>
+
+            <collision>
+                <!--<pose>0 0 0 0 0 1.57</pose>>-->
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <!--<pose>0 0 0 0 0 1.57</pose>>-->
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="base_link">
+                    <color rgba="0.0980392156862745 0.0980392156862745 0.0980392156862745 1" />
+                </material>
+            </visual>
+        </link>
+
+        <joint name="base_joint" type="fixed">
+            <origin xyz="0 0 -0.0288" rpy="0 0 0" />
+            <parent link="base_link"/>
+            <child link="base_footprint" />
+        </joint>
+
+        <joint name="join_left_front" type="fixed">
+            <!--<origin xyz="0.6 0 0.8" rpy="0 0 0"/>-->
+            <origin xyz="0.1825 0.195 0.049" rpy="0 0 1.57"/>
+            <parent link="base_link"/>
+            <child link="link_left_front"/>
+            <axis xyz="1 0 0" />
+            <limit effort="30" velocity="17.4" />
+        </joint>
+
+        <link name="link_left_front">
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <mass value="0.59"/>
+                <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <inertia ixx="0.002525266" ixy="0" ixz="0" iyy="0.001311197" iyz="0" izz="0.001311136"/>
+            </inertial>
+
+            <collision>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_right_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_right_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="wheels">
+                    <color rgba="0.6 0.6 0.6 1" />
+                </material>
+            </visual>
+        </link>
+
+        <joint name="join_right_front" type="fixed">
+            <!--<origin xyz="0.6 0 0.8" rpy="0 0 0"/>-->
+            <origin xyz="0.1825 -0.195 0.049" rpy="0 0 1.57"/>
+            <parent link="base_link"/>
+            <child link="link_right_front"/>
+            <axis xyz="1 0 0" />
+            <limit effort="30" velocity="17.4" />
+        </joint>
+
+        <link name="link_right_front">
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <mass value="0.59"/>
+                <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <inertia ixx="0.002525266" ixy="0" ixz="0" iyy="0.001311197" iyz="0" izz="0.001311136"/>
+            </inertial>
+
+            <collision>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_left_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_left_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="wheels">
+                    <color rgba="0.6 0.6 0.6 1" />
+                </material>
+            </visual>
+        </link>
+
+        <joint name="join_left_back" type="fixed">
+            <!--<origin xyz="0.6 0 0.8" rpy="0 0 0"/>-->
+            <origin xyz="-0.1825 0.195 0.049" rpy="0 0 1.57"/>
+            <parent link="base_link"/>
+            <child link="link_left_back"/>
+            <axis xyz="1 0 0" />
+            <limit effort="30" velocity="17.4" />
+        </joint>
+
+        <link name="link_left_back">
+            <pose>0 0 0 0 0 0</pose>
+
+            <inertial>
+                <mass value="0.59"/>
+                <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <inertia ixx="0.002525266" ixy="0" ixz="0" iyy="0.001311197" iyz="0" izz="0.001311136"/>
+            </inertial>
+
+
+            <collision>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_left_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_left_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="wheels">
+                    <color rgba="0.6 0.6 0.6 1" />
+                </material>
+            </visual>
+        </link>
+
+        <joint name="join_right_back" type="fixed">
+            <!--<origin xyz="0.6 0 0.8" rpy="0 0 0"/>-->
+            <origin xyz="-0.1825 -0.195 0.049" rpy="0 0 1.57"/>
+            <parent link="base_link"/>
+            <child link="link_right_back"/>
+            <axis xyz="1 0 0" />
+            <limit effort="30" velocity="17.4" />
+        </joint>
+
+        <link name="link_right_back">
+            <pose>0 0 0 0 0 0</pose>
+
+            <inertial>
+                <mass value="0.59"/>
+                <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <inertia ixx="0.002525266" ixy="0" ixz="0" iyy="0.001311197" iyz="0" izz="0.001311136"/>
+            </inertial>
+
+
+            <collision>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_right_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 -0.07625" rpy="0 0 -1.57"/>
+                <geometry>
+                    <mesh filename="package://sentry_gazebo/meshes/mecanum_right_hands.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="wheels">
+                    <color rgba="0.6 0.6 0.6 1" />
+                </material>
+            </visual>
+        </link>
+
+        <link name="link_laser">
+            <visual>
+              <geometry>
+                <mesh filename="package://sentry_gazebo/meshes/hokuyo.dae"/>
+              </geometry>
+              <material name="blue"/>
+            </visual>
+            <collision>
+              <geometry>
+                <box size="0.03 0.03 0.04"/>
+              </geometry>
+            </collision>
+            <xacro:default_inertial mass="0.02"/>
+        </link>
+
+        <joint name="join_laser" type="fixed">
+            <origin xyz="0.2933 0 0.255" rpy="0 0 0" />
+            <parent link="base_link"/>
+            <child link="link_laser" />
+        </joint>
+
+
+        <link name="link_camera">
+            <visual>
+              <geometry>
+                <mesh filename="package://sentry_gazebo/meshes/kinect.dae"/>
+              </geometry>
+            </visual>
+            <material name="black"/>
+            <collision>
+              <geometry>
+                <box size="0.073000 0.276000 0.072000"/>
+              </geometry>
+            </collision>
+            <xacro:default_inertial mass="0.02"/>
+        </link>
+
+        <joint name="join_camera" type="fixed">
+            <origin xyz="0 0 0.27679" rpy="0 0 0" />
+            <parent link="base_link"/>
+            <child link="link_camera" />
+        </joint>
+
+        <link name="link_sonar_front_1">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_front_1" type="fixed">
+            <origin xyz="0.2125 0.1125 0.111" rpy="0 0 0"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_front_1"/>
+        </joint>
+
+        <link name="link_sonar_front_5">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_front_5" type="fixed">
+            <origin xyz="0.2125 -0.1125 0.111" rpy="0 0 0"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_front_5"/>
+        </joint>
+
+        <link name="link_sonar_back_3">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_back_3" type="fixed">
+            <origin xyz="-0.2125 -0.0625 0.111" rpy="0 0 3.1415926"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_back_3"/>
+        </joint>
+
+        <link name="link_sonar_back_7">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_back_7" type="fixed">
+            <origin xyz="-0.2125 0.0625 0.111" rpy="0 0 3.1415926"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_back_7"/>
+        </joint>
+
+
+        <link name="link_sonar_left_4">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_left_4" type="fixed">
+            <origin xyz="-0.0525 0.155 0.111" rpy="0 0 1.5707963"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_left_4"/>
+        </joint>
+
+        <link name="link_sonar_left_8">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_left_8" type="fixed">
+            <origin xyz="0.0525 0.155 0.111" rpy="0 0 1.5707963"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_left_8"/>
+        </joint>
+
+         <link name="link_sonar_right_2">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_right_2" type="fixed">
+            <origin xyz="0.0525 -0.155 0.111" rpy="0 0 -1.5707963"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_right_2"/>
+        </joint>
+
+        <link name="link_sonar_right_6">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="join_sonar_right_6" type="fixed">
+            <origin xyz="-0.0525 -0.155 0.111" rpy="0 0 -1.5707963"/>
+            <parent link="base_link"/>
+            <child link="link_sonar_right_6"/>
+        </joint>
+
+    </xacro:macro>
+</robot>

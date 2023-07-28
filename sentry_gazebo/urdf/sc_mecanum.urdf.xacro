@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<robot name="smart_car_v0" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Included URDF Files -->
+    <xacro:include filename="$(find sentry_gazebo)/urdf/mecanum.xacro" />
+    <xacro:include filename="$(find sentry_gazebo)/urdf/sc_drive.xacro" />
+    <xacro:sc_mecanum/>
+
+</robot>
