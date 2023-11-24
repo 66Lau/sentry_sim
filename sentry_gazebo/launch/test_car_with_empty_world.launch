@@ -2,7 +2,7 @@
 
 <launch>
   <arg name="paused" default="false"/>
-  <arg name="use_sim_time" default="false"/>
+  <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
   <!--模型车的起点放置位置-->
   <arg name="x_pos" default="8"/>
@@ -39,10 +39,6 @@
     <param name="publish_frequency" type="double" value="30.0" />
     <remap from="/joint_states" to="/mobile_base/joint_states"/>
   </node>
-
-  <!-- <node pkg="turtlesim" type="turtle_teleop_key" name="turtle_teleop_key">
-    <remap from="/turtle1/cmd_vel" to="/A/car0/cmd_vel"/>
-  </node> -->
 
   <node pkg="sentry_controller" type="sentry_control_key" name="sentry_control_key" launch-prefix="xterm -e">
   </node> 
