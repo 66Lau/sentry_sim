@@ -31,8 +31,8 @@
 
 
   <!-- load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/mobile_base" args="joint_state_controller"/>
+  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/mobile_base" args="joint_state_controller"/> -->
     <!--output="screen" ns="/mobile_base" args="joint_state_controller pitch_position_controller yaw_position_controller"/>-->
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
