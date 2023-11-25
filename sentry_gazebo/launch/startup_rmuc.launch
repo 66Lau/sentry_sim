@@ -1,0 +1,40 @@
+<launch>
+  <!-- 仿真系统参数 -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <!--模型车的起点放置位置-->
+  <arg name="x_pos" default="8"/>
+  <arg name="y_pos" default="6"/>
+  <arg name="z_pos" default="0.5"/>
+  <arg name="R_pos" default="0"/>
+  <arg name="P_pos" default="0"/>
+  <arg name="Y_pos" default="0"/>
+  <!-- Autonomous Exploration Development Environment参数 -->
+  <arg name="world_name" default="2023_v_4_1"/>
+  <arg name="checkTerrainConn" default="true"/>
+
+    <!-- 启动gazebo仿真环境，加载地图和机器人，同时添加控制器 -->
+   <include file="$(find sentry_gazebo)/launch/gazebo_rmuc.launch" >
+    <arg name="x_pos" value="$(arg x_pos)"/>
+    <arg name="y_pos" value="$(arg y_pos)"/>
+    <arg name="z_pos" value="$(arg z_pos)"/>
+    <arg name="R_pos" value="$(arg R_pos)"/>
+    <arg name="P_pos" value="$(arg P_pos)"/>
+    <arg name="Y_pos" value="$(arg Y_pos)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+    <!-- 启动Autonomous Exploration Development Environment环境，加载地形分析，局部导航 -->
+  <include file="$(find vehicle_simulator)/launch/system_rmuc.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="vehicleX" value="$(arg x_pos)"/>
+    <arg name="vehicleY" value="$(arg y_pos)"/>
+    <arg name="gazebo_gui" value="$(arg gui)"/>
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+
+  </launch>

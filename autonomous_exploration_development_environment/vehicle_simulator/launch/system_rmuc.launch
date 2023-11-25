@@ -1,0 +1,53 @@
+<launch>
+  <arg name="world_name" default="2023_v_4_1"/>
+  <arg name="vehicleHeight" default="0.75"/>
+  <arg name="cameraOffsetZ" default="0"/>
+  <arg name="vehicleX" default="8"/>
+  <arg name="vehicleY" default="6"/>
+  <arg name="terrainZ" default="0.0"/>
+  <arg name="vehicleYaw" default="0"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="checkTerrainConn" default="true"/>
+
+  <!-- 订阅ps3手柄的控制消息，可有可无 -->
+  <include file="$(find ps3joy)/launch/ps3.launch" />
+
+  <!-- 启动local_planner，并发布初始目标，此处和下方的地图中的初始目标一致 -->
+  <include file="$(find local_planner)/launch/local_planner.launch" >
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="goalX" value="$(arg vehicleX)"/>
+    <arg name="goalY" value="$(arg vehicleY)"/>
+    
+  </include>
+
+  <!-- 启动地形分析，主要用于避障 -->
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+  <!-- 启动地形分析的extension，同时此地图分析面积更大，频率更低，主要用来生成高质量的全局规划 -->
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+  <!-- 启动gazebo仿真 -->
+  <include file="$(find vehicle_simulator)/launch/robot_simulator.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="vehicleX" value="$(arg vehicleX)"/>
+    <arg name="vehicleY" value="$(arg vehicleY)"/>
+    <arg name="terrainZ" value="$(arg terrainZ)"/>
+    <arg name="vehicleYaw" value="$(arg vehicleYaw)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+  </include>
+
+  <!-- 对于点云进行tf转换 -->
+  <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
+  <!-- 可视化工具 -->
+  <include file="$(find visualization_tools)/launch/visualization_tools.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include>
+  <!-- 启动rviz -->
+  <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="tf_pub_1" args="0 0 0 0 0 0 sensor base_origin " /> -->
+
+</launch>
