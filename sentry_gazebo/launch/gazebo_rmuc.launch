@@ -4,6 +4,7 @@
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
+  <arg name="verbose" default="true"/>
   <!--模型车的起点放置位置-->
   <arg name="x_pos" default="8"/>
   <arg name="y_pos" default="6"/>
@@ -11,6 +12,7 @@
   <arg name="R_pos" default="0"/>
   <arg name="P_pos" default="0"/>
   <arg name="Y_pos" default="0"/>
+  <arg name="is_open_rviz" default="true"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="debug" value="false" />
@@ -18,6 +20,7 @@
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="headless" value="false"/>
+    <arg name="verbose" value="$(arg verbose)"/>
     <arg name="world_name" value="$(find sentry_gazebo)/worlds/2023_v_4_1.world"/>
   </include>
   
@@ -44,8 +47,6 @@
   <!-- <remap from="/A/car0/cmd_vel" to="/cmd_vel" /> -->
   </node> 
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sentry_gazebo)/rviz/rm_lidar.rviz">
-  </node>
   <!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">-->
     <!--<param name="use_gui" value="False"/>-->
   <!--</node>-->
@@ -53,5 +54,9 @@
   <!--<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>-->
 
   <node pkg="tf" type="static_transform_publisher" name="map2odom" args="0 0 0 0 0 0 /map /odom 1000"/>
+
+  <group if="$(arg is_open_rviz)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sentry_gazebo)/rviz/rm_lidar.rviz"/>
+  </group>
   
 </launch>

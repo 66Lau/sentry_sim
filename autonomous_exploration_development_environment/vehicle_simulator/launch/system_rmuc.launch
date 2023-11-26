@@ -8,6 +8,8 @@
   <arg name="vehicleYaw" default="0"/>
   <arg name="gazebo_gui" default="true"/>
   <arg name="checkTerrainConn" default="true"/>
+  <arg name="maxSpeed" default="2.0"/>
+  <arg name="autonomySpeed" default="2.0"/>
 
   <!-- 订阅ps3手柄的控制消息，可有可无 -->
   <include file="$(find ps3joy)/launch/ps3.launch" />
@@ -17,6 +19,8 @@
     <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     <arg name="goalX" value="$(arg vehicleX)"/>
     <arg name="goalY" value="$(arg vehicleY)"/>
+    <arg name="maxSpeed" value="$(arg maxSpeed)"/>
+    <arg name="autonomySpeed" value="$(arg autonomySpeed)"/>
     
   </include>
 

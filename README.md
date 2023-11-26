@@ -1,12 +1,16 @@
 # sentry_sim
-The simulation of  season in RoboMaster 2023 season based on gazebo
+The simulation of  sentry in RoboMaster 2023/2024 season based on gazebo, [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment), [far_planner](https://github.com/MichaelFYang/far_planner)
 
 <div align="center"><img src="img/slope_img.png" width=90% /></div>
-<div align="center">uphill</div>
+<div align="center">Uphill</div>
 <br>
 
 <div align="center"><img src="img/sim_img.png" width=90% /></div>
-<div align="center">navigation in bumopy road</div>
+<div align="center">Navigation in bumopy road</div>
+<br>
+
+<div align="center"><img src="img/far_planner.png" width=90% /></div>
+<div align="center">Global navigation(far_planner)</div>
 <br>
 
 ## Environment Setting
@@ -16,7 +20,7 @@ The simulation of  season in RoboMaster 2023 season based on gazebo
 - OS: Ubuntu 20.04
 - ROS: noetic
 
-Some files in `autonomous_exploration_development_environment` package are modified, therefore, I recommend that use `noetic` as your ROS version and clone from my repo directly. Because I added collison attribute for the robot and used different controller, which is different from the original version of the [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment).
+Some files in `autonomous_exploration_development_environment`, `far_planner` package are modified, therefore, I recommend that use `noetic` as your ROS version and clone from my repo directly. Because I added collison attribute for the robot and used different controller, which is different from the original version of the [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment).
 
 ```SHELL
 sudo apt-get install xterm
@@ -40,3 +44,5 @@ roslaunch sentry_gazebo startup_rmuc.launch
 ```
 
 https://github.com/66Lau/sentry_sim/assets/95697190/a8513286-9576-4109-98dd-e6898c791bb9
+
+https://github.com/66Lau/sentry_sim/assets/95697190/b711e6e7-a677-423d-bf40-183172f097cb

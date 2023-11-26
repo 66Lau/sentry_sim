@@ -13,6 +13,8 @@
   <!-- Autonomous Exploration Development Environment参数 -->
   <arg name="world_name" default="2023_v_4_1"/>
   <arg name="checkTerrainConn" default="true"/>
+  <arg name="maxSpeed" default="2"/>
+  <arg name="autonomySpeed" default="2"/>
 
     <!-- 启动gazebo仿真环境，加载地图和机器人，同时添加控制器 -->
    <include file="$(find sentry_gazebo)/launch/gazebo_rmuc.launch" >
@@ -25,6 +27,7 @@
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="paused" value="$(arg paused)"/>
     <arg name="gui" value="$(arg gui)"/>
+    <arg name="is_open_rviz" value="false"/>
   </include>
 
     <!-- 启动Autonomous Exploration Development Environment环境，加载地形分析，局部导航 -->
@@ -34,7 +37,11 @@
     <arg name="vehicleY" value="$(arg y_pos)"/>
     <arg name="gazebo_gui" value="$(arg gui)"/>
     <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+    <arg name="maxSpeed" value="$(arg maxSpeed)"/>
+    <arg name="autonomySpeed" value="$(arg autonomySpeed)"/>
   </include>
 
+    <!-- 启动far_planner -->
+  <include file="$(find far_planner)/launch/far_planner.launch" />
 
   </launch>
