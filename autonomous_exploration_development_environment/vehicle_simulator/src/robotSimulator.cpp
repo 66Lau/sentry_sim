@@ -77,7 +77,7 @@ double maxIncl = 30.0;
 geometry_msgs::Quaternion Odom_quat_get;
 geometry_msgs::Point Odom_pose_get;
 
-const int systemDelay = 5;
+const int systemDelay = 20;
 int systemInitCount = 0;
 bool systemInited = false;
 
@@ -132,9 +132,11 @@ void scanHandler(const sensor_msgs::PointCloud2::ConstPtr& scanIn)
 
   //延迟五次
   if (!systemInited) {
+    ROS_INFO("hold on, initializing!!\n");
     systemInitCount++;
     if (systemInitCount > systemDelay) {
       systemInited = true;
+      ROS_INFO("initialization done!!\n");
     }
     return;
   }
@@ -424,7 +426,7 @@ int main(int argc, char** argv)
 
   terrainDwzFilter.setLeafSize(terrainVoxelSize, terrainVoxelSize, terrainVoxelSize);
 
-  printf("\nSimulation started.\n\n");
+  ROS_INFO("\nSimulation started.\n\n");
 
   ros::Rate rate(200);
   bool status = ros::ok();

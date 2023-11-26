@@ -19,12 +19,7 @@
         <box size="0.6 0.4 0.3"/>
       </geometry>
     </visual>
-    <collision>
-        <geometry>
-          <box size="0.6 0.4 0.3"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
+
     <inertial>
       <mass value="1e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -44,12 +39,6 @@
       <geometry>
         <cylinder radius="0.03" length="0.35"/>
       </geometry>
-    <collision>
-        <geometry>
-         <cylinder radius="0.03" length="0.35"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
     </visual>
 
     <inertial>
@@ -73,13 +62,6 @@
       </geometry>
     </visual>
 
-    <collision>
-        <geometry>
-         <cylinder radius="0.15" length="0.1"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
-
     <inertial>
       <mass value="1e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -100,13 +82,6 @@
         <cylinder radius="0.15" length="0.1"/>
       </geometry>
     </visual>
-
-    <collision>
-        <geometry>
-         <cylinder radius="0.15" length="0.1"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
 
     <inertial>
       <mass value="1e-5" />
@@ -129,13 +104,6 @@
       </geometry>
     </visual>
 
-    <collision>
-        <geometry>
-         <cylinder radius="0.15" length="0.1"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
-
     <inertial>
       <mass value="1e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -157,13 +125,6 @@
       </geometry>
     </visual>
 
-    <collision>
-        <geometry>
-         <cylinder radius="0.15" length="0.1"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
-
     <inertial>
       <mass value="1e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -177,40 +138,6 @@
     <child link="right_rear_wheel"/>
   </joint>
 
-
-  <joint name="imu_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_origin"/>
-    <child link="imu"/>
-  </joint>
-    
-<link name="imu">
-      <visual>
-          <origin rpy="0 0 0" xyz="0 0 0" />
-          <geometry>
-                  <box size="0.1 0.1 0.1"/>
-          </geometry>                
-          <material name= "red" >
-            <color rgba="1.0 0.0 0.0 1.0" />
-          </material>
-      </visual>
-      <collision>
-          <geometry>
-              <box size="0.1 0.1 0.1" />
-          </geometry>
-          <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0" />
-      </collision>
-      
-  </link>
-
-
-  <xacro:include filename="$(find vehicle_simulator)/urdf/imu.urdf.xacro" />
-  <!-- 
-  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
-  <xacro:VLP-16 parent="lidar_holder" name="lidar" topic="/velodyne_points" hz="30" samples="1875" gpu="true">
-      <origin xyz="0 0 0.1" rpy="0 0 0" />
-  </xacro:VLP-16> 
-  -->
   <xacro:gazebo_material ref="base_link"         color="Red" />
   <xacro:gazebo_material ref="lidar_holder"      color="Black" />
   <xacro:gazebo_material ref="left_front_wheel"  color="Black" />

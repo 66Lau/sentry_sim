@@ -21,12 +21,11 @@
     <arg name="world_name" value="$(find sentry_gazebo)/worlds/2023_v_4_1.world"/>
   </include>
   
-
+  <!-- 加载小车模型 -->
   <param name="robot_description" command="$(find xacro)/xacro '$(find sentry_gazebo)/urdf/base_car.urdf.xacro'" />
-  
-
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-unpause -urdf -param robot_description -model mobile_base -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)" respawn="false" />
 
+  <!-- 加载控制器 -->
   <rosparam file="$(find sentry_gazebo)/config/sc_config.yaml" command="load"/>
 
 

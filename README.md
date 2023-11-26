@@ -1,6 +1,13 @@
 # sentry_sim
 The simulation of  season in RoboMaster 2023 season based on gazebo
-！[](./img/slope_img.png)
+
+<div align="center"><img src="img/slope_img.png" width=90% /></div>
+<div align="center">uphill</div>
+<br>
+
+<div align="center"><img src="img/sim_img.png" width=90% /></div>
+<div align="center">navigation in bumopy road</div>
+<br>
 
 ## Environment Setting
 - CPU:4800h
@@ -9,7 +16,7 @@ The simulation of  season in RoboMaster 2023 season based on gazebo
 - OS: Ubuntu 20.04
 - ROS: noetic
 
-Some files in `autonomous_exploration_development_environment` package are modified, therefore, I recommend that use `noetic` as your ROS version and clone from my repo directly. Because I added collison attribute for the robot and used different controller, which is different from the original version of the [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment)
+Some files in `autonomous_exploration_development_environment` package are modified, therefore, I recommend that use `noetic` as your ROS version and clone from my repo directly. Because I added collison attribute for the robot and used different controller, which is different from the original version of the [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment).
 
 ```SHELL
 sudo apt-get install xterm

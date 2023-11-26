@@ -26,13 +26,12 @@
 
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
-  <arg name="gui" default="true"/>
+  <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
-  <arg name="verbose" default="true"/>
+  <arg name="verbose" default="false"/>
   <arg name="world_name" default="garage"/>
 
-  <!-- 启动world，加载地图 -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch" >
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
@@ -50,12 +49,7 @@
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_lidar" args="-urdf -param /lidar_description -model lidar"/>
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/robot.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -param /robot_description -model robot -x $(arg vehicleX) -y $(arg vehicleY) -z $(arg vehicleZ)"/>
-
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-  <param name="publish_frequency" type="double" value="30.0" />
-  <remap from="/joint_states" to="/robot/joint_states"/>
-  </node>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" args="-urdf -param /robot_description -model robot"/>
 
   <node pkg="vehicle_simulator" type="vehicleSimulator" name="vehicleSimulator" output="screen" required="true">
     <param name="use_gazebo_time" type="bool" value="false" />

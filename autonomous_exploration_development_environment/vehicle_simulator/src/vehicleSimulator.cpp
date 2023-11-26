@@ -13,7 +13,6 @@
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <gazebo_msgs/ModelState.h>
-#include <gazebo_msgs/ModelStates.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/Joy.h>
@@ -31,21 +30,6 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/kdtree/kdtree_flann.h>
 
-/*
-此文件的主要作用就是控制小车的移动，并发布相关信息
-订阅：
-  激光雷达的点云
-  地形的点云
-  速度话题
-发布：
-  registered scan
-  里程计信息
-  map到sensor的tf转换
-
-
-如果移植到我的系统中，只需要订阅雷达的点云数据并且发布registered scan到map frame，同时发布里程计信息，还有map到sensor的tf转换
-
-*/
 using namespace std;
 
 const double PI = 3.1415926;
@@ -87,7 +71,6 @@ float vehicleZ = 0;
 float vehicleRoll = 0;
 float vehiclePitch = 0;
 float vehicleYaw = 0;
-geometry_msgs::Quaternion vehicleQuat;
 
 float vehicleYawRate = 0;
 float vehicleSpeed = 0;
@@ -113,7 +96,6 @@ pcl::VoxelGrid<pcl::PointXYZI> terrainDwzFilter;
 
 ros::Publisher* pubScanPointer = NULL;
 
-//点云数据回调函数
 void scanHandler(const sensor_msgs::PointCloud2::ConstPtr& scanIn)
 {
   if (!systemInited) {
@@ -318,16 +300,6 @@ void speedHandler(const geometry_msgs::TwistStamped::ConstPtr& speedIn)
   vehicleYawRate = speedIn->twist.angular.z;
 }
 
-void robotHandler(const gazebo_msgs::ModelStates::ConstPtr& robotstate)
-{
-
-  vehicleZ  = robotstate->pose[4].position.z;
-  // ROS_INFO("the height of robot is f%", vehicleZ);
-  //ROS_INFO("get z = %f", vehicleZ);
-  geometry_msgs::Quaternion vehicleQuat = robotstate->pose[4].orientation;
-
-}
-
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "vehicleSimulator");
@@ -360,8 +332,6 @@ int main(int argc, char** argv)
   ros::Subscriber subTerrainCloud = nh.subscribe<sensor_msgs::PointCloud2>("/terrain_map", 2, terrainCloudHandler);
 
   ros::Subscriber subSpeed = nh.subscribe<geometry_msgs::TwistStamped>("/cmd_vel", 5, speedHandler);
-
-  ros::Subscriber subRobot = nh.subscribe<gazebo_msgs::ModelStates>("/gazebo/model_states", 5, robotHandler);
 
   ros::Publisher pubVehicleOdom = nh.advertise<nav_msgs::Odometry>("/state_estimation", 5);
 
@@ -411,7 +381,7 @@ int main(int argc, char** argv)
                 0.005 * vehicleYawRate * (-sin(vehicleYaw) * sensorOffsetX - cos(vehicleYaw) * sensorOffsetY);
     vehicleY += 0.005 * sin(vehicleYaw) * vehicleSpeed +
                 0.005 * vehicleYawRate * (cos(vehicleYaw) * sensorOffsetX - sin(vehicleYaw) * sensorOffsetY);
-    //vehicleZ = terrainZ + vehicleHeight;
+    vehicleZ = terrainZ + vehicleHeight;
 
     ros::Time odomTimeRec = odomTime;
     odomTime = ros::Time::now();
@@ -450,15 +420,13 @@ int main(int argc, char** argv)
     tfBroadcaster.sendTransform(odomTrans);
 
     // publish 200Hz Gazebo model state messages (this is for Gazebo simulation)
-    //cameraState.pose.orientation = geoQuat;
-    cameraState.pose.orientation = vehicleQuat;
+    cameraState.pose.orientation = geoQuat;
     cameraState.pose.position.x = vehicleX;
     cameraState.pose.position.y = vehicleY;
     cameraState.pose.position.z = vehicleZ + cameraOffsetZ;
     pubModelState.publish(cameraState);
 
-    //robotState.pose.orientation = geoQuat;
-    cameraState.pose.orientation = vehicleQuat;
+    robotState.pose.orientation = geoQuat;
     robotState.pose.position.x = vehicleX;
     robotState.pose.position.y = vehicleY;
     robotState.pose.position.z = vehicleZ;
@@ -466,8 +434,7 @@ int main(int argc, char** argv)
 
     geoQuat = tf::createQuaternionMsgFromRollPitchYaw(terrainRoll, terrainPitch, 0);
 
-    //lidarState.pose.orientation = geoQuat;
-    cameraState.pose.orientation = vehicleQuat;
+    lidarState.pose.orientation = geoQuat;
     lidarState.pose.position.x = vehicleX;
     lidarState.pose.position.y = vehicleY;
     lidarState.pose.position.z = vehicleZ;
