@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/lau/ws_sentry_sim/devel/include/**",
+        "/home/lau/ws_livox/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/far_planner/boundary_handler/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/far_planner/far_planner/include/**",
+        "/home/lau/ws_sentry_sim/src/FAST_LIO/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/far_planner/goalpoint_rviz_plugin/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/far_planner/graph_decoder/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/sentry_controller/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/velodyne_simulator/velodyne_gazebo_plugins/include/**",
+        "/home/lau/ws_sentry_sim/src/sentry_sim/autonomous_exploration_development_environment/waypoint_rviz_plugin/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

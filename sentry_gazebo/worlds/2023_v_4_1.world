@@ -66,11 +66,11 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    <gravity>0 0 -10</gravity>
+    <gravity>0 0 -100</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
     <physics type='ode'>
-      <max_step_size>0.001</max_step_size>
+      <max_step_size>0.004</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
     </physics>
