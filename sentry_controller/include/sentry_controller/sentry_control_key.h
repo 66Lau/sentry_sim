@@ -162,6 +162,7 @@ private:
 
   
   ros::NodeHandle nh_;
+  ros::NodeHandle nhPrivate = ros::NodeHandle("~");
   double linear_x,linear_y, angular_, l_scale_, a_scale_;
   ros::Publisher twist_pub_;
   

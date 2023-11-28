@@ -44,6 +44,9 @@
   </node>
 
   <node pkg="sentry_controller" type="sentry_control_key" name="sentry_control_key" launch-prefix="xterm -e">
+    <param name="cmd_vel_topic"  value="/A/car0/cmd_vel" />
+    <param name="velocity_linear"  value="3" />
+    <param name="velocity_angular"  value="3" />
   <!-- <remap from="/A/car0/cmd_vel" to="/cmd_vel" /> -->
   </node> 
 

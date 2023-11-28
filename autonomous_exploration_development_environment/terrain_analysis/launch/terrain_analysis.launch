@@ -26,7 +26,7 @@
     <param name="voxelTimeUpdateThre" type="double" value="2.0" />
     <param name="minRelZ" type="double" value="-2.5" />
     <param name="maxRelZ" type="double" value="1.0" />
-    <param name="disRatioZ" type="double" value="0.2" />
+    <param name="disRatioZ" type="double" value="0.1" />
   </node>
 
 </launch>
