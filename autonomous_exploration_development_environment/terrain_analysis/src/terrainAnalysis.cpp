@@ -153,6 +153,7 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloud2) {
   pcl::PointXYZI point;
   laserCloudCrop->clear();
   int laserCloudSize = laserCloud->points.size();
+  //剪裁点云，根据z距离对于点云进行筛选
   for (int i = 0; i < laserCloudSize; i++) {
     point = laserCloud->points[i];
 
@@ -222,6 +223,7 @@ int main(int argc, char **argv) {
   nhPrivate.getParam("minRelZ", minRelZ);
   nhPrivate.getParam("maxRelZ", maxRelZ);
   nhPrivate.getParam("disRatioZ", disRatioZ);
+  
 
   ros::Subscriber subOdometry =
       nh.subscribe<nav_msgs::Odometry>("/state_estimation", 5, odometryHandler);
@@ -544,7 +546,9 @@ int main(int argc, char **argv) {
       int terrainCloudElevSize = 0;
       for (int i = 0; i < terrainCloudSize; i++) {
         point = terrainCloud->points[i];
+        // 检查点是否在视锥体内
         if (point.z - vehicleZ > minRelZ && point.z - vehicleZ < maxRelZ) {
+          // 计算x,y坐标
           int indX = int((point.x - vehicleX + planarVoxelSize / 2) /
                          planarVoxelSize) +
                      planarVoxelHalfWidth;
@@ -552,24 +556,31 @@ int main(int argc, char **argv) {
                          planarVoxelSize) +
                      planarVoxelHalfWidth;
 
+          // 检查x,y坐标是否超出边界
           if (point.x - vehicleX + planarVoxelSize / 2 < 0)
             indX--;
           if (point.y - vehicleY + planarVoxelSize / 2 < 0)
             indY--;
 
+          // 检查x,y坐标是否在视锥体内
           if (indX >= 0 && indX < planarVoxelWidth && indY >= 0 &&
               indY < planarVoxelWidth) {
+            // 检查点是否满足最小距离要求
             if (planarVoxelDyObs[planarVoxelWidth * indX + indY] <
                     minDyObsPointNum ||
                 !clearDyObs) {
+              // 计算高度差
               float disZ =
                   point.z - planarVoxelElev[planarVoxelWidth * indX + indY];
+              // 检查高度差是否为负值
               if (considerDrop)
                 disZ = fabs(disZ);
+              // 检查planarPointElev中是否有满足条件的点
               int planarPointElevSize =
                   planarPointElev[planarVoxelWidth * indX + indY].size();
               if (disZ >= 0 && disZ < vehicleHeight &&
                   planarPointElevSize >= minBlockPointNum) {
+                // 将满足条件的点添加到terrainCloudElev中
                 terrainCloudElev->push_back(point);
                 terrainCloudElev->points[terrainCloudElevSize].intensity = disZ;
 

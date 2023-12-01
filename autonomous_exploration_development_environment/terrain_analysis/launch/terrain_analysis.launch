@@ -1,32 +1,59 @@
 <launch>
 
   <node pkg="terrain_analysis" type="terrainAnalysis" name="terrainAnalysis" output="screen" required="true">
-    <param name="scanVoxelSize" type="double" value="0.05" />
+    <!-- // 扫描体素大小:  5cm -->
+    <param name="scanVoxelSize" type="double" value="0.05" /> 
+    <!-- // 时间阈值：     2.0s -->
     <param name="decayTime" type="double" value="2.0" />
+    <!-- // 车辆初始距离阈值：   4.0m -->
     <param name="noDecayDis" type="double" value="4.0" />
+    <!-- // 清除距离：     8.0m -->
     <param name="clearingDis" type="double" value="8.0" />
+
+    <!-- // 使用排序：     是 -->
     <param name="useSorting" type="bool" value="false" />
+    <!-- // Z轴分辩数：    0.25m -->
     <param name="quantileZ" type="double" value="0.25" />
+    
+    <!-- // 考虑下降：     否 -->
     <param name="considerDrop" type="bool" value="true" />
+    <!-- // 地面升高高度限制 -->
     <param name="limitGroundLift" type="bool" value="false" />
+    <!-- // 地面上升最大距离 0.15m -->
     <param name="maxGroundLift" type="double" value="0.15" />
+    <!-- // 清楚障碍标志位  -->
     <param name="clearDyObs" type="bool" value="true" />
+    <!-- // 最小的障碍物距离阈值 -->
     <param name="minDyObsDis" type="double" value="0.3" />
+    <!-- // 通过障碍物的最小角度 -->
     <param name="minDyObsAngle" type="double" value="0" />
+    <!-- // 通过障碍物最小的Ｚ轴相对高度 -->
     <param name="minDyObsRelZ" type="double" value="-0.5" />
     <param name="absDyObsRelZThre" type="double" value="0.2" />
+    <!-- //　左侧最大转向角 -->
     <param name="minDyObsVFOV" type="double" value="-16.0" />
+    <!-- //  右侧最大转向角 -->
     <param name="maxDyObsVFOV" type="double" value="16.0" />
+    <!-- // 障碍物点的数量 -->
     <param name="minDyObsPointNum" type="int" value="1" />
+    <!-- // 无障碍物数据 -->
     <param name="noDataObstacle" type="bool" value="false" />
+    <!-- // 无障碍物阻塞跳过的点数 -->
     <param name="noDataBlockSkipNum" type="int" value="0" />
+    <!-- // 最小阻塞的点数 -->
     <param name="minBlockPointNum" type="int" value="10" />
+    <!-- // 车辆的高度 -->
     <param name="vehicleHeight" type="double" value="1.5" />
+    <!-- // 同一个位置的雷达点数阈值 -->
     <param name="voxelPointUpdateThre" type="int" value="100" />
+    <!-- // 同一个位置的雷达点时间阈值 -->
     <param name="voxelTimeUpdateThre" type="double" value="2.0" />
+    <!-- // Z轴最小的相对距离 -->
     <param name="minRelZ" type="double" value="-2.5" />
-    <param name="maxRelZ" type="double" value="1.0" />
-    <param name="disRatioZ" type="double" value="0.1" />
+    <!-- // Z轴最大的相对距离 -->
+    <param name="maxRelZ" type="double" value="2.0" />
+    <!-- // 点云处理的高度与距离的比例-与激光雷达性能相关 -->
+    <param name="disRatioZ" type="double" value="0.2" />
   </node>
 
 </launch>
