@@ -213,9 +213,11 @@ void scanHandler(const sensor_msgs::PointCloud2::ConstPtr& scanIn)
   pcl::toROSMsg(*scanData, scanData2);
   pcl_ros::transformPointCloud("map",*scanIn,scanData2, *tf_listener_ptr);
 
+
   scanData2.header.stamp = ros::Time().fromSec(odomRecTime);
   scanData2.header.frame_id = "map";
   pubScanPointer->publish(scanData2);
+
 
 }
 
@@ -478,14 +480,22 @@ int main(int argc, char** argv)
     odomData.header.stamp = odomTime;
     odomData.pose.pose.orientation = Odom_quat_get;
     odomData.pose.pose.position = Odom_pose_get;
+    bool quat_valid = (Odom_quat_get.x != 0 || 
+                      Odom_quat_get.y != 0 || 
+                      Odom_quat_get.z != 0 || 
+                      Odom_quat_get.w != 0 || 
+                      Odom_quat_get.w != 0) ? 1:0;
+    if (quat_valid){
+    //里程计发布
     pubVehicleOdom.publish(odomData);
-
     // 发布map到sensor的tf信息，publish 200Hz tf messages
     odomTrans.stamp_ = odomTime;
-
     odomTrans.setRotation(tf::Quaternion(Odom_quat_get.x, Odom_quat_get.y, Odom_quat_get.z, Odom_quat_get.w));
     odomTrans.setOrigin(tf::Vector3(Odom_pose_get.x, Odom_pose_get.y, Odom_pose_get.z));
     tfBroadcaster.sendTransform(odomTrans);
+    }
+    
+
 
 
     status = ros::ok();

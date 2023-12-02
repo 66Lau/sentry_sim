@@ -11,8 +11,8 @@
   <arg name="maxSpeed" default="2.0"/>
   <arg name="autonomySpeed" default="2.0"/>
 
-  <!-- 订阅ps3手柄的控制消息，可有可无 -->
-  <include file="$(find ps3joy)/launch/ps3.launch" />
+  <!-- 订阅ps3手柄的控制消息，可有可无
+  <include file="$(find ps3joy)/launch/ps3.launch" /> -->
 
   <!-- 启动local_planner，并发布初始目标，此处和下方的地图中的初始目标一致 -->
   <include file="$(find local_planner)/launch/local_planner.launch" >

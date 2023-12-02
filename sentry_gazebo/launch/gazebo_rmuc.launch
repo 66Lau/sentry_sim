@@ -39,7 +39,7 @@
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="30.0" />
-    <remap from="/joint_states" to="/mobile_base/joint_states"/>
+    <!-- <remap from="/joint_states" to="/mobile_base/joint_states"/> -->
     
   </node>
 
