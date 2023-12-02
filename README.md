@@ -47,7 +47,7 @@ https://github.com/66Lau/sentry_sim/assets/95697190/a8513286-9576-4109-98dd-e689
 
 https://github.com/66Lau/sentry_sim/assets/95697190/b711e6e7-a677-423d-bf40-183172f097cb
 
-<iframe width="560" height="315" src="https://youtu.be/TS8qTcB_eYk?si=25KhV_Kn6c2bYych" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+<source src="https://youtu.be/TS8qTcB_eYk?si=25KhV_Kn6c2bYych" width=90% />
 
 ## Reference
 Appreciate!
