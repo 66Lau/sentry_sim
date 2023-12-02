@@ -1,6 +1,8 @@
 # sentry_sim
 The simulation of  sentry in RoboMaster 2023/2024 season based on gazebo, [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment), [far_planner](https://github.com/MichaelFYang/far_planner)
 
+https://github.com/66Lau/sentry_sim/assets/95697190/59206443-fcca-4397-8dfb-3bf6a5fa4ec9
+
 <div align="center"><img src="img/slope_img.png" width=90% /></div>
 <div align="center">Uphill</div>
 <br>
@@ -43,11 +45,11 @@ source devel/setup.bash
 roslaunch sentry_gazebo startup_rmuc.launch
 ```
 
-https://github.com/66Lau/sentry_sim/assets/95697190/a8513286-9576-4109-98dd-e6898c791bb9
+<!-- https://github.com/66Lau/sentry_sim/assets/95697190/a8513286-9576-4109-98dd-e6898c791bb9
 
-https://github.com/66Lau/sentry_sim/assets/95697190/b711e6e7-a677-423d-bf40-183172f097cb
+https://github.com/66Lau/sentry_sim/assets/95697190/b711e6e7-a677-423d-bf40-183172f097cb -->
 
-https://github.com/66Lau/sentry_sim/assets/95697190/59206443-fcca-4397-8dfb-3bf6a5fa4ec9
+
 
 ## Reference
 Appreciate!
