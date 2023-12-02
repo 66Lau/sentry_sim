@@ -20,7 +20,7 @@ The simulation of  sentry in RoboMaster 2023/2024 season based on gazebo, [auton
 - OS: Ubuntu 20.04
 - ROS: noetic
 
-Some files in `autonomous_exploration_development_environment`, `far_planner` package are modified, therefore, I recommend that use `noetic` as your ROS version and clone from my repo directly. Because I added collison attribute for the robot and used different controller, which is different from the original version of the [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment).
+Some files in `autonomous_exploration_development_environment`, `far_planner` package are modified, therefore, I recommend that using `noetic` as your ROS version and cloning from my repo directly. Because I added collison attribute for the robot and used different controller, which is different from the original version of the [autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment).
 
 ```SHELL
 sudo apt-get install xterm
@@ -46,3 +46,14 @@ roslaunch sentry_gazebo startup_rmuc.launch
 https://github.com/66Lau/sentry_sim/assets/95697190/a8513286-9576-4109-98dd-e6898c791bb9
 
 https://github.com/66Lau/sentry_sim/assets/95697190/b711e6e7-a677-423d-bf40-183172f097cb
+
+https://youtu.be/TS8qTcB_eYk?si=25KhV_Kn6c2bYych
+
+## Reference
+Appreciate!
+- [CMU-autonomous_exploration_development_environment](https://github.com/HongbiaoZ/autonomous_exploration_development_environment)
+- [CMU-FAR-planner](https://github.com/MichaelFYang/far_planner)
+- [KDRobot_RM2023Sentry_Navigation](https://github.com/Wangben1019/KDRobot_RM2023Sentry_Navigation)
+- [Hbut_LC_sentry](https://github.com/HBUTHUANGPX/Hbut_LC_sentry)
+
+
