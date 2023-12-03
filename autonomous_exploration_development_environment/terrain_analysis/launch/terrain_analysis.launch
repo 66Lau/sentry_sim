@@ -36,8 +36,8 @@
     <param name="maxDyObsVFOV" type="double" value="16.0" />
     <!-- // 被认为是障碍物的最小数 -->
     <param name="minDyObsPointNum" type="int" value="1" />
-    <!-- // 无障碍物数据 -->
-    <param name="noDataObstacle" type="bool" value="false" />
+    <!-- // 无点云地区是否可通过性（negative osbtacle） -->
+    <param name="noDataObstacle" type="bool" value="true" />
     <!-- // 无障碍物阻塞跳过的点数 -->
     <param name="noDataBlockSkipNum" type="int" value="0" />
     <!-- // 最小阻塞的点数 -->

@@ -59,14 +59,14 @@ Appreciate!
 - [KDRobot_RM2023Sentry_Navigation](https://github.com/Wangben1019/KDRobot_RM2023Sentry_Navigation)
 - [Hbut_LC_sentry](https://github.com/HBUTHUANGPX/Hbut_LC_sentry)
 
-## Some Problems/Bugs
+## Q&A
 
 
 <div align="center"><img src="img/problem1.png" width=90% /></div>
 <div align="center">Drop</div>
 <br>
 
-When lidar are not able to scan the ground below the cliff, the system would grant cliff passable. It may be solved by set "useSorting" to false.
+When lidar are not able to scan the ground below the cliff, the system would grant cliff passable. It could be solved by set "noDataObstacle" to true.
 
 <!-- 
 调参理解
