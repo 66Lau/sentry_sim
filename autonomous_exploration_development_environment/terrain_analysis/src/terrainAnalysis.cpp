@@ -105,6 +105,7 @@ float sinVehicleYaw = 0, cosVehicleYaw = 0;
 pcl::VoxelGrid<pcl::PointXYZI> downSizeFilter;
 
 // state estimation callback function
+//里程计回调函数，用来计算初始距离
 void odometryHandler(const nav_msgs::Odometry::ConstPtr &odom) {
   double roll, pitch, yaw;
   geometry_msgs::Quaternion geoQuat = odom->pose.pose.orientation;
@@ -139,6 +140,7 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr &odom) {
 }
 
 // registered laser scan callback function
+// 用来剪裁点云，筛选点云
 void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloud2) {
   laserCloudTime = laserCloud2->header.stamp.toSec();
 
@@ -178,6 +180,7 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloud2) {
 }
 
 // joystick callback function
+// 这个是手柄控制的回调函数
 void joystickHandler(const sensor_msgs::Joy::ConstPtr &joy) {
   if (joy->buttons[5] > 0.5) {
     noDataInited = 0;
@@ -186,6 +189,7 @@ void joystickHandler(const sensor_msgs::Joy::ConstPtr &joy) {
 }
 
 // cloud clearing callback function
+// 订阅是否清除所有点云
 void clearingHandler(const std_msgs::Float32::ConstPtr &dis) {
   noDataInited = 0;
   clearingDis = dis->data;
@@ -240,6 +244,7 @@ int main(int argc, char **argv) {
   ros::Publisher pubLaserCloud =
       nh.advertise<sensor_msgs::PointCloud2>("/terrain_map", 2);
 
+  //将每个点云归纳到体素地图中
   for (int i = 0; i < terrainVoxelNum; i++) {
     terrainVoxelCloud[i].reset(new pcl::PointCloud<pcl::PointXYZI>());
   }
@@ -258,6 +263,7 @@ int main(int argc, char **argv) {
       float terrainVoxelCenX = terrainVoxelSize * terrainVoxelShiftX;
       float terrainVoxelCenY = terrainVoxelSize * terrainVoxelShiftY;
 
+      // 循环检查vehicleX和terrainVoxelCenX的差值，如果小于-terrainVoxelSize，则将terrainVoxelCloud的最后一列赋值给倒数第二列，并将最后一列清空
       while (vehicleX - terrainVoxelCenX < -terrainVoxelSize) {
         for (int indY = 0; indY < terrainVoxelWidth; indY++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -274,6 +280,7 @@ int main(int argc, char **argv) {
         terrainVoxelCenX = terrainVoxelSize * terrainVoxelShiftX;
       }
 
+      // 循环检查vehicleX和terrainVoxelCenX的差值，如果大于terrainVoxelSize，则将terrainVoxelCloud的第一列赋值给第二列，并将第一列清空
       while (vehicleX - terrainVoxelCenX > terrainVoxelSize) {
         for (int indY = 0; indY < terrainVoxelWidth; indY++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -291,6 +298,7 @@ int main(int argc, char **argv) {
         terrainVoxelCenX = terrainVoxelSize * terrainVoxelShiftX;
       }
 
+      // 循环检查vehicleY和terrainVoxelCenY的差值，如果小于-terrainVoxelSize，则将terrainVoxelCloud的最后一列赋值给倒数第二列，并将最后一列清空
       while (vehicleY - terrainVoxelCenY < -terrainVoxelSize) {
         for (int indX = 0; indX < terrainVoxelWidth; indX++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -307,6 +315,7 @@ int main(int argc, char **argv) {
         terrainVoxelCenY = terrainVoxelSize * terrainVoxelShiftY;
       }
 
+      // 循环检查vehicleY和terrainVoxelCenY的差值，如果大于terrainVoxelSize，则将terrainVoxelCloud的第一列赋值给第二列，并将第一列清空
       while (vehicleY - terrainVoxelCenY > terrainVoxelSize) {
         for (int indX = 0; indX < terrainVoxelWidth; indX++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -392,6 +401,7 @@ int main(int argc, char **argv) {
       }
 
       // estimate ground and compute elevation for each point
+      // 估计地面并计算每个点云的高度
       for (int i = 0; i < planarVoxelNum; i++) {
         planarVoxelElev[i] = 0;
         planarVoxelEdge[i] = 0;
@@ -420,6 +430,7 @@ int main(int argc, char **argv) {
             for (int dY = -1; dY <= 1; dY++) {
               if (indX + dX >= 0 && indX + dX < planarVoxelWidth &&
                   indY + dY >= 0 && indY + dY < planarVoxelWidth) {
+                  //分割点云，认为在minRelZ和maxRelZ范围内的就算是地面，地面储存在planarPointElev中
                 planarPointElev[planarVoxelWidth * (indX + dX) + indY + dY]
                     .push_back(point.z);
               }
@@ -458,7 +469,9 @@ int main(int argc, char **argv) {
 
                 float dis4 = sqrt(pointX4 * pointX4 + pointY4 * pointY4);
                 float angle4 = atan2(pointZ4, dis4) * 180.0 / PI;
+                //判断条件：在障碍物观测角度范围内，且高度在阈值范围内
                 if (angle4 > minDyObsVFOV && angle4 < maxDyObsVFOV || fabs(pointZ4) < absDyObsRelZThre) {
+                  //这个数组储存的是被分类为障碍物的索引
                   planarVoxelDyObs[planarVoxelWidth * indX + indY]++;
                 }
               }
@@ -569,7 +582,7 @@ int main(int argc, char **argv) {
             if (planarVoxelDyObs[planarVoxelWidth * indX + indY] <
                     minDyObsPointNum ||
                 !clearDyObs) {
-              // 计算高度差
+              // 计算高度差,当前点云高度减去认为是地面的点云高度
               float disZ =
                   point.z - planarVoxelElev[planarVoxelWidth * indX + indY];
               // 检查高度差是否为负值

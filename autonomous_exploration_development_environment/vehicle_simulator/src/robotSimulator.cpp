@@ -437,6 +437,16 @@ int main(int argc, char** argv)
   {
     ros::spinOnce();
 
+    tf::StampedTransform transform;
+    try{
+       listener.lookupTransform("map", "velodyne", ros::Time(0), transform);
+        }
+    catch (tf::TransformException ex){
+        ROS_ERROR("%s",ex.what());
+        ros::Duration(1.0).sleep();
+        }
+      
+
     float vehicleRecRoll = vehicleRoll;
     float vehicleRecPitch = vehiclePitch;
     float vehicleRecZ = vehicleZ;
@@ -480,6 +490,8 @@ int main(int argc, char** argv)
     odomData.header.stamp = odomTime;
     odomData.pose.pose.orientation = Odom_quat_get;
     odomData.pose.pose.position = Odom_pose_get;
+
+    Odom_pose_get.z = transform.getOrigin().z();
     bool quat_valid = (Odom_quat_get.x != 0 || 
                       Odom_quat_get.y != 0 || 
                       Odom_quat_get.z != 0 || 
