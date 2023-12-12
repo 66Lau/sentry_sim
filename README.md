@@ -80,6 +80,11 @@ terrain_analysis中的 maxGroundLift 在对点云分类到障碍物或者地面�
         minRelZ->-2.5
         maxGroundLift->2.0
         useSorting->true
+TODO:
+使用普通的A*的全局路径规划，然后base_planner使用cmu的框架，目前还差从path中提取waypoint
+
+
+roslaunch sentry_global_planner sentry_global_planner.launch 
 
 
 

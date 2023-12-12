@@ -1,0 +1,20 @@
+<launch>
+
+    <param name="use_sim_time" value="true" />
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base1" output="screen" clear_params="true" args="/map:=/prior_map /odom:=/state_estimation">
+        <rosparam file="$(find sentry_global_planner)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find sentry_global_planner)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find sentry_global_planner)/param/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find sentry_global_planner)/param/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find sentry_global_planner)/param/base_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find sentry_global_planner)/param/global_planner_params.yaml" command="load" />
+        <remap from="/cmd_vel" to="/cmd_vel_mobe_base" />
+    </node>
+
+    <node name = "map_server" pkg = "map_server" type = "map_server" args="$(find sentry_global_planner)/map/map_server.yaml /map:=/prior_map"/>
+    <!-- <node pkg="sentry_nav" type="trans_tf_2d" name="trans_tF_2d" /> -->
+    <!-- <node pkg="sentry_nav" type="trans_tf_2d_odom" name="trans_tF_2d_odom" />
+    <node pkg="sentry_nav" type="trans_odom_2d" name="trans_odom_2d" /> -->
+	<!-- <include file="$(find velocity_smoother_ema)/launch/velocity_smoother_ema.launch">
+	</include> -->
+</launch>

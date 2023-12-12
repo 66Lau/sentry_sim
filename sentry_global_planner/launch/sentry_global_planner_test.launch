@@ -1,0 +1,60 @@
+<launch>
+    <!-- <node pkg="navfn" type="navfn_node" respawn="false" name="planner" output="screen" args="/map:=prior_map /odom:=state_estimation">
+        <param name="navfn_planner/visualize_potential" value="true" />
+        <param name="navfn_planner/allow_unknown" value="false" />
+        <param name="navfn_planner/planner_window_x" value="0.0" />
+        <param name="navfn_planner/planner_window_y" value="0.0" />
+        <param name="navfn_planner/default_tolerance" value="0.0" /> -->
+
+    <!-- or global_planner -->
+     <node pkg="global_planner" type="planner" respawn="false" name="planner" output="screen">
+        <rosparam file="$(find sentry_global_planner)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find sentry_global_planner)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find sentry_global_planner)/param/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find sentry_global_planner)/param/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find sentry_global_planner)/param/base_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find sentry_global_planner)/param/global_planner_params.yaml" command="load" />
+
+        <param name="planner/old_navfn_behavior" value="false" />
+        <param name="planner/use_quadratic" value="true" />
+        <param name="planner/use_dijkstra" value="true" />
+        <param name="planner/use_grid_path" value="false" />
+        <param name="planner/allow_unknown" value="true" />
+        <param name="planner/planner_window_x" value="0.0" />
+        <param name="planner/planner_window_y" value="0.0" />
+        <param name="planner/default_tolerance" value="0.0" />
+        <param name="planner/publish_scale" value="100" />
+
+        <remap from="/planner/goal" to="/goal" />
+        <remap from="/map" to="/prior_map" />
+        <remap from="/odom" to="/state_estimation" />
+        <!-- <remap from="/planner/costmap/costmap" to="/prior_map" /> -->
+
+        <!--costmap-->
+            <!--required-->
+            <param name="costmap/global_frame" value="map"/>
+            <param name="costmap/robot_base_frame" value="base_link"/>
+            <param name="costmap/origin_x" value="0.0"/>
+            <param name="costmap/origin_y" value="0.0"/>
+            <!--optional-->
+            <!-- <param name="costmap/width" value="10.0"/>
+            <param name="costmap/height" value="10.0"/> -->
+            <param name="costmap/resolution" value="0.05"/>
+            <param name="costmap/transform_tolerance" value="0.2"/>
+            <param name="costmap/update_frequency" value="5.0"/>
+            <param name="costmap/publish_frequency" value="0.0"/>
+            <param name="costmap/transform_tolerance" value="0.2"/>
+            <param name="costmap/rolling_window" value="false"/>
+            <param name="costmap/track_unknown_space" value="false"/>
+            <param name="costmap/always_send_full_costmap" value="false"/>
+            <param name="costmap/footprint_padding" value="0.0"/>
+            <param name="costmap/robot_radius" value="0.5"/>
+    </node>
+
+    <node name = "map_server" pkg = "map_server" type = "map_server" args="$(find sentry_global_planner)/map/map_server.yaml /map:=prior_map"/>
+    <!-- <node pkg="sentry_nav" type="trans_tf_2d" name="trans_tF_2d" /> -->
+    <!-- <node pkg="sentry_nav" type="trans_tf_2d_odom" name="trans_tF_2d_odom" />
+    <node pkg="sentry_nav" type="trans_odom_2d" name="trans_odom_2d" /> -->
+	<!-- <include file="$(find velocity_smoother_ema)/launch/velocity_smoother_ema.launch">
+	</include> -->
+</launch>
